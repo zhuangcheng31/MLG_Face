@@ -1,12 +1,9 @@
 # Description of Train Options
-
-Let us take [`train_DIC_CelebA.json`](./train_DIC_CelebA.json) as an example. 
-
 **Note**: Before you run `python train.py -opt options/train/*.json`, please carefully check options: `"scale"`, `"dataroot_HR"` and `"pretrained_path"` (if `"pretrain"` option is set to `"resume"` or `true`).
 
 ```c++
 {
-    "name": "DIC_CelebA" // experiment name
+    "name": "MLG_CelebA" // experiment name
     "mode": "sr_align", // solver type: "sr_align" | "sr_align_gan"
     "gpu_ids": [0, 1], // GPU ID to use
     "use_tb_logger": true, // whether to use tb_logger
@@ -20,8 +17,8 @@ Let us take [`train_DIC_CelebA.json`](./train_DIC_CelebA.json) as an example.
         "train": { 
             "mode": "HRLandmark", // dataset mode: "HRLandmark" | "LRHR" | "LR", "HRLandmark" is required during training
             "name": "CelebALandmarkTrain", // dataset name
-            "dataroot_HR": "/home/jzy/datasets/SR_datasets/CelebA/img_celeba", // HR dataset root
-            "info_path": "/home/jzy/datasets/SR_datasets/CelebA/new_train_info_list.pkl", // path to landmark annotations
+            "dataroot_HR": "/home/datasets/SR_datasets/CelebA/img_celeba", // HR dataset root
+            "info_path": "/home/datasets/SR_datasets/CelebA/new_train_info_list.pkl", // path to landmark annotations
             "data_type": "img", // data type: "img" (image files) | "npy" (binary files)
             "n_workers": 8, // number of threads for data loading
             "batch_size": 8, // input batch size
