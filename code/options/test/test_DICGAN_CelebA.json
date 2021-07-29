@@ -1,0 +1,41 @@
+{
+    "name": "CelebA_GAN_SFT_40K",
+    "mode": "sr_align_gan",
+    "degradation": "BI",
+    "gpu_ids": [0],
+    "use_tb_logger": false,
+    "scale": 8,
+    "is_train": false,
+    "rgb_range": 1,
+    "save_image": true,
+    "datasets": {
+        "test_CelebA": {
+            "mode": "LRHR",
+            "name": "CelebA",
+            "dataroot_HR": "/root/tmp/mlg_face/CelebA_test/HR",
+            "dataroot_LR": "/root/tmp/mlg_face/CelebA_test/LR",
+            "data_type": "img",
+            "LR_size": 16,
+            "HR_size": 128
+        }
+    },
+    "networks": {
+        "which_model": "MLG",
+        "num_features": 48,
+        "in_channels": 3,
+        "out_channels": 3,
+        "num_steps": 4,
+        "num_groups": 6,
+        "detach_attention": false,
+        "hg_num_feature": 256,
+        "hg_num_keypoints": 68,
+        "num_fusion_block": 7
+    },
+    "solver": {
+        "pretrained_path":"/opt/data/private/FSR/mlg_face/experiments/DIC_in3f48_x8_GAN_SFT_CelebA_0401/epochs/step_0040000_ckp.pth"
+    },
+    "path": {
+      "root": "../"
+
+    }
+}
