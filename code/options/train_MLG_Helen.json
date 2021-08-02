@@ -1,0 +1,89 @@
+{
+    "name": "XR_Helen_0421",  
+    "_comment": "68 face landmarks, connect HG over steps by feature average between each stacks",
+    "mode": "sr_align",
+    "gpu_ids": [0,1], //[0, 1],
+    "use_tb_logger": true,
+    "scale": 8,
+    "is_train": true,
+    "rgb_range": 1,
+    "save_image": true,
+    "datasets": {
+        "train": {
+            "mode": "HRLandmark",
+            "name": "HelenLandmarkTrain",
+            "dataroot_HR": "/opt/data/private/helen/helen_all",
+            "info_path": "../annotations/Helen_train_2K.pkl",
+            "data_type": "img",
+            "n_workers": 8, //16
+            "batch_size":4, //8,             debug;
+            "LR_size": 16,
+            "HR_size": 128,
+
+            "distort": [0.66, 1.33],
+            "use_flip": true,
+            "use_rot": true,
+            "sigma": 1
+        },
+        "val": {
+            "mode": "HRLandmark",
+            "name": "HelenLandmarkVal",
+            "dataroot_HR": "/opt/data/private/helen/helen_all",
+            "info_path": "/opt/data/private/FSR/mlg_face/annotations/Helen_val.pkl",
+            "data_type": "img",
+            "LR_size": 16,
+            "HR_size": 128,
+            "sigma": 1.0
+        }
+    },
+    "networks": {
+        "which_model": "MLG",  //"MLG",
+        "num_features": 48,  //48,
+        "in_channels": 3,
+        "out_channels": 3,
+        "num_steps": 4,  //4
+        "num_groups": 6,  //6
+        "detach_attention": false,
+        "hg_num_feature": 256,
+        "hg_num_keypoints": 68,
+        "hg_num_stack": 4,     //chengjia   'class SRFBN_HG(nn.Module):'
+        "num_fusion_block": 7  //7
+    },
+    "solver": {
+        "type": "ADAM",
+        "learning_rate": 1e-4, //1e-4
+        "weight_decay": 0,
+        "lr_scheme": "MultiStepLR",
+        "lr_steps": [
+            1e4, 2e4, 4e4, 8e4
+        ],
+        "lr_gamma": 0.5,
+        "manual_seed": 0,
+        "save_freq":6e3,   //5e3,
+        "val_freq": 2e3,   //2e3,        //2e3,   debug
+        "niter": 1.5e5,
+        "num_save_image": 20,
+        "log_full_step": true,
+        "pretrain": true,
+        "pretrained_path": "/opt/data/private/FSR/mlg_face/experiments/MLG_in3f48_x8_debug_Helen_useColla_0331/epochs/step_0028000_ckp.pth",
+        "HG_pretrained_path":"/root/tmp/mlg_face/models/FB_HG_68_CelebA.pth", 
+        "release_HG_grad_step": 2e4,  
+        "loss": {
+            "pixel": {
+                "loss_type": "l1",
+                "weight": 1
+            },
+            "align": {
+                "loss_type": "l2", //"l2",
+                "weight": 1e-2  //1e-1
+            }
+        }
+    },
+    "logger": {
+        "print_freq": 200   //200   debug
+    },
+    "path": {
+      "root": "../"
+    }
+}
+
